@@ -5,12 +5,11 @@ A whole dairy farm simulator, driven by scientific crop and animal models
 
 ## Instructions
 To get the simulator up and running:
-1. Download the program at: https://raw.githubusercontent.com/Cride5/jablus/master/dist/jablus-1.0.jar
-2. Double click on jablus.jar to start the simulator
-3. If it won't start, make sure the Java Runtime Environment is installed on your computer. It
-can be downloaded here: http://java.sun.com/javase/downloads/index.jsp
+ 1. Download the program at: https://raw.githubusercontent.com/Cride5/jablus/master/dist/jablus-1.0.jar
+ 2. Double click on jablus.jar to start the simulator
+ 3. If it won't start, make sure the Java Runtime Environment is installed on your computer. It can be downloaded here: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 
-Once the program is running you can
+Once the program is running you can:
 * Manage Livestock
   1. Buy or sell them (market tab on left)
   2. Buy or sell feeds for the livestock (market tab)
@@ -24,11 +23,11 @@ Once the program is running you can
 * Move on to next month (Next button on bottom right)
 
 These visualisations provide feedback on what's going on:
-1. Stores of cattle, feeds and manure (top)
-2. Map of fields (crop-type, expected yield, soil water, soil nitrates, nitrate leaching)
-3. Weather graph and balance graph (right)
-4. Balance Sheet (market tab)
-5. Time - conspicuously hidden under the bottom left of the map!Dairy Farm Simulator 
+ 1. Stores of cattle, feeds and manure (top)
+ 2. Map of fields (crop-type, expected yield, soil water, soil nitrates, nitrate leaching)
+ 3. Weather graph and balance graph (right)
+ 4. Balance Sheet (market tab)
+ 5. Time - conspicuously hidden under the bottom left of the map!Dairy Farm Simulator 
 
 
 ## Improvements
