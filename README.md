@@ -65,7 +65,7 @@ appropriate diet
 
 
 ## License
-    GNU Public License Version 2.0
+    GNU Public License Version 3
 
 
 ## Author
