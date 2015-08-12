@@ -1,0 +1,166 @@
+package jablus.models.dairy.gui;
+
+import jablus.data.Data;
+import jablus.gui.DisplayParams;
+import jablus.models.dairy.agent.DairyAgent;
+import jablus.models.dairy.env.CowDigestion;
+import jablus.models.dairy.env.Market;
+import jablus.models.dairy.env.Storage;
+
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+
+
+class InputPane extends JPanel {
+	
+	/** Unique class ID */
+    private static final long serialVersionUID = -6620228785231781614L;
+	private SubjectInterface iface;
+	private JTabbedPane tabbedPane;
+	private MarketInputPanel marketPanel;
+	private LivestockFeedPanel feedPanel;
+	private LandMgtPanel fieldPanel;
+	private JPanel[] panels;
+	private static int WIDTH = 380;
+	private static int HEIGHT = 475;
+	private DairyAgent agent;
+
+	
+	public InputPane(DisplayParams params, SubjectInterface iface, DairyAgent agent){
+		this.iface = iface;
+		this.agent = agent;
+
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
+		marketPanel = new MarketInputPanel(iface, agent); tabbedPane.add("Market", marketPanel);
+		feedPanel = new LivestockFeedPanel(params, iface, agent); tabbedPane.add("Feed Budget", feedPanel);
+		fieldPanel = new LandMgtPanel(iface, agent); tabbedPane.add("Land Management", fieldPanel);
+//		tabbedPane.add("Cropping", initCroppingPanel());
+//		tabbedPane.add("Manure", initManurePanel());
+
+/*		panels = new JPanel[]{
+				getMarketPanel()
+		};
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
+		tabbedPane.setPreferredSize(new Dimension(300, 500));
+		panels = new JPanel[panelNames.length];
+		for(int i = 0; i < panels.length; i++){
+			tabbedPane.addTab(panels[i].getName(), panels[i]);
+		}
+*/		
+//		tabbedPane.setPreferredSize(new Dimension(SubjectDisplayParams.WEST_WIDTH, SubjectDisplayParams.HEIGHT - 134 - SubjectDisplayParams.NORTH_HEIGHT + SubjectDisplayParams.SOUTH_HEIGHT));
+		add(tabbedPane, BorderLayout.CENTER);
+	}
+	
+	void addModelItem(Data item){
+		if(item instanceof Market)
+			marketPanel.setEconomics((Market)item);
+		if(item instanceof Storage)
+			marketPanel.setStore((Storage)item);
+		if(item instanceof CowDigestion)
+			feedPanel.setCowDigestion((CowDigestion)item);
+//		if(item instanceof Livestock)
+//			fieldPanel.setLivestock((Livestock)item);
+	}
+	
+	void addGuiItem(Object item){
+		if(item instanceof FieldPlanner)
+			fieldPanel.setPlanner((FieldPlanner)item);
+	}
+
+
+	private static JPanel table(Object[][] data){
+		return table(data, new int[]{1}); }
+	private static JPanel table(Object[][] data, int[] weights){
+		GridBagLayout layout = new GridBagLayout();
+		JPanel table = new JPanel(layout);
+		GridBagConstraints c = new GridBagConstraints();
+		c.ipady = 5;
+//		c.fill = GridBagConstraints.BOTH;
+		for(int row = 0; row < data.length; row++){
+			for(int col = 0; col < data[row].length; col++){
+				Object item = data[row][col];
+				if(item instanceof Number){
+					c.weightx = weights[col % weights.length] / 2;
+					c.ipadx = 0;
+					JLabel c1, c2;
+					String pound = col == data[row].length - 1 ? "£" : "";
+					if(item instanceof Double){
+						double d = ((Double)item).doubleValue();
+						int id = (int)d;
+						int dd = (int)Math.abs(d * 1E2 - id * 1E2);
+						while(dd > 0 && dd % 10 == 0) dd /= 10;
+						c1 = new JLabel((id < 0 ? "-" : "") + pound + Math.abs(id));
+						c2 = new JLabel("." + dd);
+					}
+					else{
+						c1 = new JLabel(pound + item.toString());
+						c2 = new JLabel();
+					}
+					c.gridwidth = 1;
+					c.anchor = GridBagConstraints.EAST;
+					layout.setConstraints(c1, c);
+					table.add(c1);
+					c.gridwidth = col == data[row].length - 1 ?
+							GridBagConstraints.REMAINDER : 1;
+					c.anchor = GridBagConstraints.WEST;
+					layout.setConstraints(c2, c);
+					table.add(c2);
+				}else{
+					c.ipadx = 5;
+					c.weightx = weights[col % weights.length];
+					c.gridwidth = col == data[row].length - 1 ?
+							GridBagConstraints.REMAINDER : 2;	
+					c.anchor = GridBagConstraints.WEST;
+					JLabel cell = new JLabel(item.toString());
+					//cell.setBorder(new LineBorder(Color.BLACK, 1));
+	//				c.anchor = ITEM_ALIGN[col % ITEM_ALIGN.length];
+	//				c.gridheight = row == data.length - 1 ?
+	//						GridBagConstraints.RELATIVE : 1;	
+					layout.setConstraints(cell, c);
+					table.add(cell);
+				}
+			}
+//			c.gridwidth = GridBagConstraints.REMAINDER; //end row
+		}
+		return table;
+//		double tw = 0;
+//		for(int i = 0; i > row.length; i++) tw += ITEM_WIDTH[i % ITEM_WIDTH.length]; 
+//		JLabel[] e = new JLabel[data.length];
+//		l.setPreferredSize(new Dimension((int)(ITEM_WIDTH[i % ITEM_WIDTH.length] * WIDTH / tw), ITEM_HEIGHT));
+	}
+
+	
+	private static JPanel initCroppingPanel() {
+		JPanel p = SubjectInterface.genInputPanel(new JPanel(), "Crop Management");
+//    	p.add(new Field("Fertiliser", 120, SubjectDisplayParams.WEST_WIDTH - 120 - 50 - 5, 50, "Kg/Ha"));
+ //   	p.add(new Field("Liquid Manure", 120, SubjectDisplayParams.WEST_WIDTH - 120 - 50 - 5, 50, "Kg/Ha"));
+  //  	p.add(new Field("Solid Manure", 120, SubjectDisplayParams.WEST_WIDTH - 120 - 50 - 5, 50, "Kg/Ha"));
+//		p.setName("Market");
+		return p;
+    }
+
+
+	private JPanel initManurePanel() {
+		JPanel p = SubjectInterface.genInputPanel(new JPanel(), "Marnure Management");
+//		p.setName("Market");
+		return p;
+   }
+	
+	void notifyStep(){
+		marketPanel.notifyStep();
+		feedPanel.notifyStep();
+//		fieldPanel.notifyStep();
+	}
+
+	void updateMarket(){
+		marketPanel.notifyStep();
+	}
+	
+	// ======================= Event Handlers ===============================
+	
+}

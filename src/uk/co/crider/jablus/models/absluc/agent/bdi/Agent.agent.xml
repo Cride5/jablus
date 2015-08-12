@@ -1,0 +1,146 @@
+<!-- BDI agent. Selects land use using complex BDI decision making -->
+<agent xmlns="http://jadex.sourceforge.net/jadex"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jadex.sourceforge.net/jadex
+	http://jadex.sourceforge.net/jadex-0.94.xsd"
+	name="Agent"
+	package="jablus.agent.bdi">
+
+	<imports>
+		<import>jadex.adapter.fipa.*</import>
+		<import>jablus.agent.Agent</import>
+		<import>jablus.Constants</import>
+		<import>jablus.SimulationManager</import>
+		<import>jablus.agent.LandUseScheme</import>
+	</imports>
+
+	<beliefs>
+		
+		<!-- Static beliefs -->
+ 		<belief name="name"      class="String" exported="true"/>
+ 		<belief name="id"        class="int"    exported="true"/>
+ 		<belief name="data_file" class="String" exported="true"/>
+ 		<belief name="sim_id"    class="int"    exported="true"/>
+		<belief name="grounding" class="BDIAgent"              />
+		<belief name="land_use"  class="LandUseScheme"         />		
+		
+		<!-- From BDI Narritives (numbers between 0 and 1 use fuzzy logic) -->
+		<belief name="satisfaction"       class="double"><fact>0.0</fact></belief>
+		<belief name="curiosity"          class="double"><fact>1.0</fact></belief>
+		<belief name="uncertainty"        class="double"><fact>1.0</fact></belief>
+		<belief name="uncertainty_profit" class="double"><fact>1.0</fact></belief>
+		<belief name="uncertainty_trend"  class="double"><fact>1.0</fact></belief>
+		<belief name="uncertainty_change" class="double"><fact>1.0</fact></belief>
+		<belief name="risk_level"         class="double"><fact>0.5</fact></belief>
+		<belief name="best_profit"        class="double"><fact>0.0</fact></belief>
+		<belief name="last_profit"        class="double"><fact>0.0</fact></belief>
+		<belief name="strategy"             class="int"          ><fact>0                      </fact></belief>
+
+		<!-- qualititive measures -->
+		<belief name="VERY_HIGH" class="double"><fact evaluationmode="static">0.875</fact></belief>
+		<belief name="HIGH"      class="double"><fact evaluationmode="static">0.75 </fact></belief>
+		<belief name="AVERAGE"   class="double"><fact evaluationmode="static">0.5  </fact></belief>
+		<belief name="LOW"       class="double"><fact evaluationmode="static">0.25 </fact></belief>
+		<belief name="VERY_LOW"  class="double"><fact evaluationmode="static">0.125</fact></belief>
+		<!-- defines what a good profit trend is -->
+		<belief name="PROFIT_TREND_VERY_GOOD" class="double"><fact evaluationmode="static"> 0.5</fact></belief>
+		<belief name="PROFIT_TREND_GOOD"      class="double"><fact evaluationmode="static"> 0.1</fact></belief>
+		<belief name="PROFIT_TREND_AVERAGE"   class="double"><fact evaluationmode="static"> 0.0</fact></belief>
+		<belief name="PROFIT_TREND_BAD"       class="double"><fact evaluationmode="static">-0.1</fact></belief>
+		<belief name="PROFIT_TREND_VERY_BAD"  class="double"><fact evaluationmode="static">-0.5</fact></belief>
+
+	</beliefs>
+	
+	<goals>
+		<achievegoal name="select_land_use_goal"/>
+	</goals>
+
+	<plans>
+		<!-- SATISFY GOALS -->
+		<plan name="new_pattern_plan">
+			<body>new SelectLandUsePlan(SelectLandUsePlan.NEW_PATTERN_STRATEGY)</body>
+			<trigger>
+            	<goal ref="select_land_use_goal"/>
+    	    </trigger>
+			<precondition>
+				$beliefbase.curiosity &gt;= $beliefbase.VERY_HIGH
+			</precondition>
+		</plan>
+		<plan name="change_and_compare_plan">
+			<body>new SelectLandUsePlan(SelectLandUsePlan.CHANGE_AND_COMPARE_STRATEGY)</body>
+			<trigger>
+            	<goal ref="select_land_use_goal"/>
+    	    </trigger>
+			<precondition>
+				$beliefbase.uncertainty_change &gt; $beliefbase.HIGH
+			</precondition>
+		</plan>
+		<plan name="await_trend_plan">
+			<body>new SelectLandUsePlan(SelectLandUsePlan.AWAIT_TREND_STRATEGY)</body>
+			<trigger>
+            	<goal ref="select_land_use_goal"/>
+    	    </trigger>
+			<precondition>
+				$beliefbase.uncertainty_trend &gt; $beliefbase.AVERAGE
+			</precondition>
+		</plan>
+		<plan name="return_to_previous_plan">
+			<body>new SelectLandUsePlan(SelectLandUsePlan.RETURN_TO_PREVIOUS_STRATEGY)</body>
+			<trigger>
+            	<goal ref="select_land_use_goal"/>
+    	    </trigger>
+			<precondition>
+				$beliefbase.land_use.isMemorised()
+				&amp;&amp;
+				$beliefbase.uncertainty_change &lt;= $beliefbase.AVERAGE
+				&amp;&amp;
+				$beliefbase.satisfaction &lt;= $beliefbase.AVERAGE
+			</precondition>
+		</plan>
+		<plan name="maintain_use_plan">
+			<body>new SelectLandUsePlan(SelectLandUsePlan.MAINTAIN_USE_STRATEGY)</body>
+			<trigger>
+            	<goal ref="select_land_use_goal"/>
+    	    </trigger>
+			<precondition>
+				$beliefbase.land_use.isMemorised()
+				&amp;&amp;
+				$beliefbase.satisfaction &gt;= $beliefbase.VERY_HIGH
+			</precondition>
+		</plan>
+		<plan name="maintain_best_plan">
+			<body>new SelectLandUsePlan(SelectLandUsePlan.MAINTAIN_BEST_STRATEGY)</body>
+			<trigger>
+            	<goal ref="select_land_use_goal"/>
+    	    </trigger>
+		</plan>
+	
+		<!-- REACT TO EVENTS -->
+		<!-- Initialise agent -->
+		<plan name="initialise_plan">
+			<body>new InitialisePlan()</body>
+		</plan>
+		<!-- Revise beliefs at the end of the step -->
+		<plan name="revise_beliefs_plan">
+			<body>new ReviseBeliefsPlan()</body>
+			<trigger>
+				<internalevent ref="end_step_event"/>
+			</trigger>
+		</plan>
+	</plans>
+
+	<events>
+		<internalevent name="end_step_event"/>
+	</events>
+	
+	<!-- Initial state to start in -->
+	<configurations>
+		<!-- First thing to be done is initialise the agent -->
+		<configuration name="default">
+			<plans>
+				<initialplan ref="initialise_plan"/>
+			</plans>
+		</configuration>
+	</configurations>
+
+</agent>

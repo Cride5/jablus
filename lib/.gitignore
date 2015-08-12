@@ -1,0 +1,26 @@
+# Ignore everything in 2nd and 3rd level down
+*/*
+*/*/*
+
+# With the exception of these directories
+!*/lib/
+!landserf/jars/
+!jnlp/servlet/
+
+# And these specific files
+!SuperCSV-1.02/SuperCSV-1.02.jar
+!jadex-0.96/lib/jadex_rt.jar
+!jadex-0.96/lib/jadex_standalone.jar
+!jai-1_1_2/lib/jai_codec.jar
+!jai-1_1_2/lib/jai_core.jar
+!jump-1.1.2/lib/Jama-1.0.1.jar
+!jfreechart-1.0.6/lib/jcommon-1.0.10.jar
+!jump-1.1.2/lib/jdom.jar
+!jfreechart-1.0.6/lib/jfreechart-1.0.6.jar
+!jadex-0.96/lib/jibx-run.jar
+!jts/lib/jts-1.8.jar
+!jump-1.1.2/lib/jump-1.1.2.jar
+!landserf/jars/landserf220.jar
+!landserf/jars/utils.jar
+!jnlp/servlet/jnlp.jar
+

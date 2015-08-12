@@ -1,0 +1,58 @@
+<!-- Used by the SimulationManager object to start BDI agents -->
+
+<agent xmlns="http://jadex.sourceforge.net/jadex"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jadex.sourceforge.net/jadex 
+	                    http://jadex.sourceforge.net/jadex-0.94.xsd"
+	name="Starter"
+	package="jablus.agent.starter">
+
+	<imports>
+		<import>jadex.planlib.*</import>
+		<import>jadex.adapter.fipa.*</import>
+	</imports>
+
+	<capabilities>
+		<capability name="startercap" file="StartAgents"/>
+	</capabilities>
+
+	<beliefs>
+		<belief name="agent_name"        class="String"/>
+		<belief name="agent_id"          class="int"/>
+		<belief name="agent_schema_file" class="String"/>
+		<belief name="agent_data_file"   class="String"/>
+		<belief name="sim_id"            class="int"/>
+	</beliefs>
+
+	<goals>
+		<!-- Used to start other agents. -->
+		<achievegoalref name="start_agents">
+			<concrete ref="startercap.start_agents"/>
+		</achievegoalref>
+	</goals>
+
+	<plans>
+		<plan name="initialise_plan">
+			<body>new InitialisePlan()</body>
+		</plan>
+		<plan name="start_agent_plan">
+			<body>new StartAgentPlan()</body>
+			<trigger>
+        		<internalevent ref="start_simulation_event"/>
+        	</trigger>
+		</plan>
+	</plans>
+
+	<events>
+		<internalevent name="start_simulation_event"/>
+	</events>
+	
+	<configurations>
+		<configuration name="default">
+			<plans>
+				<initialplan ref="initialise_plan"/>
+			</plans>
+		</configuration>
+	</configurations>
+
+</agent>

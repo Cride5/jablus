@@ -1,0 +1,29 @@
+FEEDING REGIME, Concentrates (kg/head), Hay (kg/head), Grass Silage (kg/head), Wheat Silage (kg/head), Maize Silage (kg/head)
+Confined Cows, 2, 0, 20, 0, 0
+Grazing Cows, 0, 0, 0, 0, 0
+Target Yield (litres/head/yr), 6000
+
+GRAZING PLAN, Time, Action ID
+1, 13, 1816
+1, 38, 1817
+2, 13, 1816
+2, 38, 1817
+3, 13, 1816
+3, 38, 1817
+4, 13, 1816
+4, 38, 1817
+
+FIELD GROUPS, Fields...
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 21, 38, 40
+
+CROPPING PLAN, Time, Action ID, Quantity
+0, 11, 1811, 8
+0, 14, 1811, 8
+0, 18, 1814
+0, 19, 1811, 8
+0, 23, 1811, 8
+0, 27, 1814
+0, 28, 1811, 8
+0, 32, 1811, 8
+0, 36, 1814
+

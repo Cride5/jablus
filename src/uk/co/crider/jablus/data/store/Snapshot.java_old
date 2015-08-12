@@ -1,0 +1,107 @@
+package jablus.data.store;
+
+import jablus.Constants;
+import jablus.data.Data;
+import jablus.data.Data0D;
+import jablus.data.DataSet;
+
+import java.util.Collection;
+
+/** Stores the state of the simulation as a Reference object.
+ * If garbage collected then dataItems may be read from disk. */
+public class Snapshot{// implements DataSet{
+
+	private DataSet dataItems;
+	private int time;
+	
+	/** Save dataset as snapshot */
+	public Snapshot(int time, DataSetIO dataStore, DataSet data){
+		this.dataItems = (DataSet)data.clone();
+//System.out.println("Taking snapshot...\n" + dataItems);
+		this.time = time;
+		// Write DataSet to disk
+		if(dataStore != null)
+			dataStore.writeDataSet(data);
+	}
+	/** Generate snapshot from loaded dataItems */
+	public Snapshot(DataSet data){
+//System.out.println("Loaded snapshot...\n" + dataItems);
+		this.dataItems = data;
+		this.time = ((Data0D.Integer)data.getItem(Constants.DRIVER_TIME)).getValue();
+	}
+	/** Load snapshot from disk */
+//	public Snapshot(int time, CSVFile file){
+//		this.time = time;
+//TODO: need to map sim time to file pos
+//		if(file != null)
+//			this.data = file.readData(time);
+//	}
+	/** Constructor for snapshot clones */
+	private Snapshot(int time, DataSet data){
+		this.time = time;
+		this.dataItems = (DataSet)data.clone();
+	}
+	/** Clone the object */
+	public Object clone(){
+		// Ensure dataItems exists
+		return new Snapshot(time, dataItems);
+	}
+	
+	public String getName() {
+	    return "";
+    }
+	
+	public boolean hasFile(){
+		return dataItems.hasFile();
+	}
+
+	public Data getItem(String name){
+		if(dataItems.getName().equals(name))
+			return dataItems;
+		return dataItems.getItem(name);
+	}
+	public void addItem(Data data){
+		dataItems.addItem(data);
+	}
+
+	public void setItem(Data item) {
+//System.out.println("Old snapshot dataItems...\n" + dataItems);
+//System.out.println("Setting dataItems...\n" + item);
+		dataItems.setItem(item);
+//System.out.println("New snapshot dataItems...\n" + dataItems);
+    }
+	public Collection<? extends Data> getItems() {
+		// If dataset swapped out, then retrive it
+	    return dataItems.getItems();
+    }
+	
+	public int getTime(){
+		return time;
+	}
+	
+	public String toString(){
+		return "" + time + " - " + dataItems;
+	}
+
+	/** For testing purposes */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+/*	public String[] getHeader(){
+		return dataItems.getHeader();
+	}
+	public CellProcessor getReadProcessor(DataSetSchema schema) {
+	    return dataItems.getReadProcessor(schema);
+    }
+	public CellProcessor getWriteProcessor(DataSetSchema schema) {
+	    return dataItems.getWriteProcessor(schema);
+    }
+	public CellProcessor[] getReadProcessors(DataSetSchema schema) {
+	    return dataItems.getReadProcessors(schema);
+    }
+	public CellProcessor[] getWriteProcessors(DataSetSchema schema) {
+	    return dataItems.getWriteProcessors(schema);
+    }
+*/
+}

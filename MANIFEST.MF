@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.9.3
+Created-By: 1.7.0_79-b14 (Oracle Corporation)
+Bundle-Name: jablus
+Bundle-Version: 1.0
+Bundle-Date: 2015-08-12 14:20:59 ICT
+Implementation-Title: jablus
+Implementation-Version: 1.0
+Implementation-URL: http://www.crider.co.uk
+

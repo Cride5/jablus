@@ -1,0 +1,111 @@
+package jablus.models.dairy.gui;
+
+import jablus.gui.DisplayParams;
+import jablus.models.dairy.agent.DairyAgent;
+
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+class LandMgtPanel extends JPanel {
+	
+	/** Unique class ID */
+    private static final long serialVersionUID = 402437962456050802L;
+    
+	private SubjectInterface iface;
+//	private DairyAgent agent;
+//	private CowDigestion digest;
+	private CroppingPlanner cropPlanner;
+	private GrazingPlanner grazingPlanner;
+	
+	public LandMgtPanel(SubjectInterface iface_, DairyAgent agent_){
+		super(new FlowLayout(FlowLayout.LEFT));
+		this.iface = iface_;
+//		this.agent = agent_;
+
+		// Crop management
+		JLabel crop = new JLabel("Crop Management");
+		crop.setPreferredSize(new Dimension(SubjectDisplayParams.INPUT_PANEL_WIDTH, 24));
+		SubjectDisplayParams.setStyle(crop, DisplayParams.TITLE);
+		add(crop);
+		// Field planner button
+		JButton fieldButton = new JButton("Open Crop Planner");
+		add(fieldButton);
+		fieldButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				cropPlanner.showPlanners(iface);
+            }
+		});
+		JButton grazingButton = new JButton("Open Grazing Planner");
+		add(grazingButton);
+		grazingButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				grazingPlanner.showPlanners(iface);
+            }
+		});
+		
+		
+//		SubjectInterface.genInputPanel(this, "Livestock Management");
+		
+/*		JPanel p = SubjectInterface.genInputPanel(new JPanel(), "Livestock Management");
+    	p.add(new Field("Heifers Confined", 130, SubjectDisplayParams.WEST_WIDTH - 130 - 50 - 5, 50, "%"));
+    	p.add(new Field("Cows Confined", 130, SubjectDisplayParams.WEST_WIDTH - 130 - 50 - 5, 50, "%"));
+    	p.add(new Field("Feed Concentrates", 130, SubjectDisplayParams.WEST_WIDTH - 130 - 50 - 5, 50, "%"));
+    	p.add(new Field("Feed Roughage", 130, SubjectDisplayParams.WEST_WIDTH - 130 - 50 - 5, 50, "%"));
+*/		
+		
+	}
+	
+	void setPlanner(FieldPlanner planner){
+		if(planner instanceof CroppingPlanner)
+			cropPlanner = (CroppingPlanner)planner;
+		else if(planner instanceof GrazingPlanner)
+			grazingPlanner = (GrazingPlanner)planner;
+	}
+	
+		
+	
+	// ======================= Event Handlers ===============================
+	private ActionListener HANDLE_MARKET_CLICK = new ActionListener(){
+		public void actionPerformed(final ActionEvent e){
+			new Thread(){
+				public void run(){
+					handle(e);
+				}
+			}.start();
+		}
+		public void handle(ActionEvent e){	
+/*			JMenuItem item = (JMenuItem)e.getSource();
+			String aName = ((Component)e.getSource()).getName();
+			Action action = agent.getActionExecutable(aName);
+			if(iface.isActionPossible(action)){
+				// Set up permissable range
+				if(agent.isActionType(action, DairyAgent.ACTION_BUY)){
+					int storeId = Storage.STORE_FOR.get(((DataTX)action.args[0]).getText());
+					((Data0D)action.args[1]).setRange(0, store.getStore(storeId).spaceAvailable());
+				}
+				else if(agent.isActionType(action, DairyAgent.ACTION_SELL)){
+					int storeId = Storage.STORE_FOR.get(((DataTX)action.args[0]).getText());
+					int itemId = Storage.ITEM_ID.get(((DataTX)action.args[0]).getText());
+					((Data0D)action.args[1]).setRange(0, store.getStore(storeId).items[itemId].getValue());
+				}
+				// Get quantity
+				action.args[1] = DecisionPopup.queryData(null, action.args[1].getName(), action.args[1]);
+//System.out.println("POPUP RETURNED:" + nCows);
+//				agent.addActionToPerform(action);
+				agent.performAction(action);
+				addTransaction();
+				iface.updateStores();
+				//iface.redisplay();
+				//System.out.println("Selected feature:" + );
+//			System.out.println("right button used?" + maps.getSelector().isRightMouseButtonUsed());
+			}
+			
+*/		}
+	};
+}
