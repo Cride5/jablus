@@ -69,6 +69,7 @@ appropriate diet
 
 
 ## Author
-    [Conrad Rider](http://www.crider.co.uk)
+[Conrad Rider](http://www.crider.co.uk)
+
 
 
