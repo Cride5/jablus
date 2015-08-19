@@ -72,4 +72,7 @@ appropriate diet
 [Conrad Rider](http://www.crider.co.uk)
 
 
+## Publications
+* [Methodology for eliciting, encoding and simulating human decision making behaviour](https://www.era.lib.ed.ac.uk/handle/1842/5865)
+
 
