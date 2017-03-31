@@ -1,10 +1,10 @@
 /*
  * File:   Popup.java
  * Author: Conrad Rider
- * Email:  conrad@crider.co.uk
+ * Email:  cride5@crider.co.uk
  * Date:   22-02-05
  */
- 
+
 package uk.co.crider.jablus.gui;
 
 import uk.co.crider.jablus.data.Data;
@@ -51,10 +51,10 @@ import javax.swing.border.EtchedBorder;
 
 /** Generates and displays popups */
 public class Popup extends JablusWindow{
-	
+
 	/** Unique class ID */
     private static final long serialVersionUID = -6681956311085176724L;
-    
+
     private final MouseListener CLICK_LISTENER = new MouseAdapter(){
 		public void mousePressed(MouseEvent e){
 			clicked = true;
@@ -75,7 +75,7 @@ public class Popup extends JablusWindow{
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setResizable(false);
 	}
-	
+
 	public boolean hasBeenClicked(){
 		return clicked;
 	}
@@ -88,7 +88,7 @@ public class Popup extends JablusWindow{
 		Container pn = getContentPane();
 		SpringLayout layout = new SpringLayout();
 		pn.setLayout(layout);
-		
+
 		JSeparator sp = new JSeparator(); pn.add(sp);
 		JButton ok = new JButton("OK"); pn.add(ok);
 		ok.addActionListener(new ActionListener(){
@@ -110,7 +110,7 @@ public class Popup extends JablusWindow{
 		layout.putConstraint(SpringLayout.NORTH, fp, 5, SpringLayout.NORTH, pn);
 		layout.putConstraint(SpringLayout.WEST,  fp, 5, SpringLayout.WEST,  pn);
 		layout.putConstraint(SpringLayout.EAST,  pn, 5, SpringLayout.EAST,  fp);
-		
+
 		layout.putConstraint(SpringLayout.NORTH, sp, 10, SpringLayout.SOUTH, fp);
 		layout.putConstraint(SpringLayout.WEST,  sp, 0, SpringLayout.WEST,  fp);
 		layout.putConstraint(SpringLayout.EAST,  sp, 0, SpringLayout.EAST,  fp);
@@ -120,14 +120,14 @@ public class Popup extends JablusWindow{
 		layout.putConstraint(SpringLayout.SOUTH, pn, 5, SpringLayout.SOUTH, ok);
 		if(showCancel){
 			layout.putConstraint(SpringLayout.NORTH, cn, 5, SpringLayout.SOUTH, sp);
-			layout.putConstraint(SpringLayout.EAST,  cn, -10, SpringLayout.WEST,  ok);		
+			layout.putConstraint(SpringLayout.EAST,  cn, -10, SpringLayout.WEST,  ok);
 		}
-		
+
 		pack();
 		setLocationRelativeTo(parent);
 		setVisible(true);
 	}
-	
+
 	/** Generates input fields on a JPanel, based on the given data array.
 	 * When the user inputs data, it is populated in the given data array */
 	public static JPanel genInputFields(Data[] data){
@@ -203,7 +203,7 @@ public class Popup extends JablusWindow{
 						}
 					}
 					public void keyReleased(KeyEvent e){ keyPressed(e); }
-					public void keyTyped(KeyEvent e){ keyPressed(e); }         
+					public void keyTyped(KeyEvent e){ keyPressed(e); }
 				});
 			}
 			if(data[i] instanceof Data0D){
@@ -245,7 +245,7 @@ public class Popup extends JablusWindow{
 			notify();
 		}
 	}
-	
+
 	public static Data queryData(Data data){
 		return queryData(null, "Input " + data.getName(), data); }
 	public static Data queryData(String title, Data data){
@@ -260,7 +260,7 @@ public class Popup extends JablusWindow{
 	/** Displays a popup for user to enter data based on given Data objects */
 	public static Data[] queryData(final Frame parent, String title, final Data[] data){
 		final Popup p = new Popup(title);
-		
+
 		// Clone data to allow reversion to default
 //		Data[] defData = new Data[data.length];
 //		for(int i = 0; i < data.length; i++) defData[i] = (Data)data[i].clone();
@@ -272,17 +272,17 @@ public class Popup extends JablusWindow{
 		synchronized(p){
 			try{ p.wait(); }
 			catch(InterruptedException e){
-				e.printStackTrace(); }			
+				e.printStackTrace(); }
 		}
 		if(p.okPressed) return data;
 		return null;
 //		return defData;
 	}
-	
+
 	/** Displays a popup allowing the user to input decision data */
 	public static void queryDecisions(final Frame parent, final List<DecisionNarrative> decisions){
 		final Popup p = new Popup("Decisions");
-		
+
 		// Clone data to allow reversion to default
 
 		SwingUtilities.invokeLater(new Runnable(){
@@ -320,7 +320,7 @@ public class Popup extends JablusWindow{
 		final JScrollPane decisionScroller = new JScrollPane(dPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		decisionScroller.setPreferredSize(new Dimension(width + 20, 500));
 		body.add(decisionScroller);
-		
+
 		final IntegerData i = new IntegerData(0, 0);
 		for(Iterator<DecisionNarrative> it = decisions.iterator(); it.hasNext(); i.setValue(i.intValue() + 1)){
 			dPanel.add(genDecisionField(i, it.next(), width - 10));
@@ -340,7 +340,7 @@ public class Popup extends JablusWindow{
 		});
 		dPanel.setPreferredSize(new Dimension(width, whatList.size() * 140 + 35));
 		dPanel.add(addButton);
-		
+
 		return body;
 	}
 	private List<JTextField> whatList = new LinkedList<JTextField>();
@@ -369,8 +369,8 @@ public class Popup extends JablusWindow{
 		whyList.add(whyField);
 		return dPanel;
 	}
-	
-	
+
+
 	/** Displays a popup to inform user of a messsage */
 	public static void inform(String message){
 		JOptionPane.showMessageDialog(null, message);}
@@ -378,45 +378,45 @@ public class Popup extends JablusWindow{
 	public static void inform(String message, String title){
 		JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
 	}
-	
+
 	/** Displays a popup to query the user for a decision.
 	 * Method blocks until user makes decision */
-	public static boolean verify(String message){		
+	public static boolean verify(String message){
 		return 0 == JOptionPane.showConfirmDialog(null, message, "Confirm", JOptionPane.YES_NO_OPTION);}
 	/** Displays a popup to query the user for a decision.
 	 * Method blocks until user makes decision. Includes custom window title */
-	public static boolean verify(String message, String title){	
-		return 0 == JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);}		
-	
+	public static boolean verify(String message, String title){
+		return 0 == JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);}
+
 	/** Displays popup informing user of an error */
 	public static void error(String message){
 		JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);}
-	
+
 	/** For testing */
 	public static void main(String[] args){
 //		System.out.println("p=" + queryNumber("Number", INTEGER, 0, 10));
 //		Popup p = new DecisionPopup(null, "test", new JLabel("TEST asdf asdf asdfa df"));
 /*		query(null, "test", new Data[]{
-//				new DoubleData("DoubleData1"), 
-				new IntegerData("IntegerData1"), 
-				new IntegerData("IntegerData2  "), 
-				new IntegerData("IntegerData3"), 
-				new IntegerData("IntegerData4 "), 
+//				new DoubleData("DoubleData1"),
+				new IntegerData("IntegerData1"),
+				new IntegerData("IntegerData2  "),
+				new IntegerData("IntegerData3"),
+				new IntegerData("IntegerData4 "),
 		});
 */
 		//Popup p = new DecisionPopup("test");
 		queryDecisions(null, null);
-		
+
 		if(true) return;
 		Data[] data = queryData(null, "test", new Data[]{
-				new DoubleData(0), 
-				new DoubleData(0, "m²"), 
-				new DoubleData(0, -10, 10), 
-				new DoubleData(0, "m²", 100, 500), 
-				new IntegerData(0), 
-				new IntegerData(0, "m²"), 
-				new IntegerData(0, -10, 10), 
-				new IntegerData(0, "m²", 10, 100), 
+				new DoubleData(0),
+				new DoubleData(0, "m²"),
+				new DoubleData(0, -10, 10),
+				new DoubleData(0, "m²", 100, 500),
+				new IntegerData(0),
+				new IntegerData(0, "m²"),
+				new IntegerData(0, -10, 10),
+				new IntegerData(0, "m²", 10, 100),
 		});
 		System.out.println(Utils.arrayString(data));
 		if(true) return;

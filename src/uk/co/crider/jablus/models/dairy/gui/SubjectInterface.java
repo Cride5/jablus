@@ -1095,7 +1095,7 @@ System.out.println("Saving regime:" + regimeFile);
 				Popup.inform("For a complete user guide visit:\n" +
 						"http://xweb.geos.ed.ac.uk/~s0127633/dairy\n\n" +
 						"If there are any further questions\nfeel free to contact the author at:\n" +
-						"conrad@crider.co.uk", Constants.getName(Constants.MENU_HELP));
+						"cride5@crider.co.uk", Constants.getName(Constants.MENU_HELP));
 				break;
 			}
 			if(action >= Constants.MENU_SNO_LOAD && action < Constants.MENU_REG_NEW){
