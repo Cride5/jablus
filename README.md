@@ -2,6 +2,7 @@
 
 A whole dairy farm simulator, driven by scientific crop and animal models
 
+A demo video of the simulator can be downloaded at: https://www.dropbox.com/s/4sioxu2pmakkews/jablus-demo.ogv?dl=0
 
 ## Instructions
 To get the simulator up and running:
