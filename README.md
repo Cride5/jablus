@@ -27,7 +27,7 @@ These visualisations provide feedback on what's going on:
  2. Map of fields (crop-type, expected yield, soil water, soil nitrates, nitrate leaching)
  3. Weather graph and balance graph (right)
  4. Balance Sheet (market tab)
- 5. Time - conspicuously hidden under the bottom left of the map!Dairy Farm Simulator 
+ 5. Time - conspicuously hidden under the bottom left of the map!Dairy Farm Simulator
 
 
 ## Improvements
@@ -63,6 +63,24 @@ appropriate diet
 * Decision-Making
   - Ability to input any number of decisions/reasons for each round
 
+
+## Building from Source
+Instructions for linux build.
+
+1. Install prerequisites
+```
+sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+sudo apt-get install ant
+```
+
+2. Build the jar file and run
+```
+ant jar
+java -jar dist/jablus-1.0.jar
+```
 
 ## License
     GNU Public License Version 3
