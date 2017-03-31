@@ -34,11 +34,11 @@ public class JablusWindow extends JFrame{
 
 	/** Unique class ID */
     private static final long serialVersionUID = 1207764473502636155L;
-    
+
     /** Image used to represent this program */
 //    private static Image iconImage = Toolkit.getDefaultToolkit().getImage(JablusWindow.class.getResource(Constants.GUI_ICON_FILE));
 //    private static ImageIcon iconImage = new ImageIcon(Constants.GUI_ICON_FILE);
-    
+
     /** The status bar */
     protected JMenuBar menuBar;
     protected JMenu fileMenu;
@@ -48,7 +48,7 @@ public class JablusWindow extends JFrame{
     private boolean showMenuBar;
     private boolean allowClose;
     private boolean showStatusBar;
-    
+
 	public JablusWindow(){ this("", true, true, true); }
 	public JablusWindow(String title, boolean showMenuBar, boolean allowClose){ this(title, showMenuBar, true, allowClose); }
 	public JablusWindow(String title, boolean showMenuBar, boolean showStatusBar, boolean allowClose){
@@ -59,10 +59,10 @@ public class JablusWindow extends JFrame{
 		this.allowClose = allowClose;
 		initComponents();
 	}
-	
+
 	/** Initialise graphical components */
 	private void initComponents(){
-		
+
 		final JFrame thisFrame = this;
 
 		// Set native look and feel
@@ -86,13 +86,13 @@ public class JablusWindow extends JFrame{
 		String filePath = "/" + Constants.JABLUS_GRAPHICS_DIR + "/" + Constants.GUI_ICON_FILE;
 //		String filePath = "/" + Constants.GUI_ICON_FILE;
 	    URL url = getClass().getResource(filePath);
-	    System.out.println("path=" + filePath + " url=" + url + " iconfile=" + Constants.GUI_ICON_FILE + ", exists?" + new java.io.File(Constants.GUI_ICON_FILE).exists());
+	    System.out.println("path=" + filePath + " url=" + url + " iconfile=" + Constants.GUI_ICON_FILE);
 		iconImage = Toolkit.getDefaultToolkit().getImage(url);
 		setIconImage(iconImage);
-		
+
 		// Set top-level layout
 //		setLayout(new BorderLayout(0, 0));
-		
+
 		// Set up basic menu
         if(showMenuBar){
 			menuBar = new JMenuBar();
@@ -107,17 +107,17 @@ public class JablusWindow extends JFrame{
 			});
 			fileMenu.add(quitItem);
         }
-		
+
 		// Set up toolbar
 //		toolBar = new JToolBar();
 //		add(toolBar, BorderLayout.NORTH);
-		
+
 		// Set Status bar
         if(showStatusBar){
 			statusBar = new JWStatusBar();
 			add(statusBar, BorderLayout.SOUTH);
         }
-        
+
 		// Terminate program on close
 		if(allowClose)
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -125,30 +125,30 @@ public class JablusWindow extends JFrame{
 			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 	}
-	
+
 	/** Set the window title */
 	public void setTitle(String title){
 		super.setTitle(title.equals("") ? Constants.JABLUS_WINDOW_TITLE : Constants.JABLUS_WINDOW_TITLE + " - " + title);
 	}
-	
+
 	/** Set the value of the status bar */
 	public void setStatus(String status){
 		if(statusBar != null)
 			statusBar.setMessage(status);
 	}
-	
+
 	/** Set the progress of the progress bar */
 	public void setProgress(int progress){
 		if(statusBar != null)
 			statusBar.setProgress(progress);
 	}
-	
+
 	/** Moves the window to the center of the screen */
 	protected void center(){
 		Point p = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
 		setLocation(p.x - getWidth() / 2, p.y - getHeight() / 2);
 	}
-	
+
 	/** Get historic data used to populate temporal data views (eg trend graphs) */
 	public static Hashtable<String, List<Data>> getPastData(SimulationInterface sim, Data item, List<Data> time, DisplayParams displayParams){
 //System.out.println("SimulationGUI: Generating past data for  " + item);
@@ -180,7 +180,7 @@ public class JablusWindow extends JFrame{
 //System.out.println(time);
 		return pastData;
 	}
-	
+
 	private static void getPastData(Data item, Hashtable<String, List<Data>> pastData, DisplayParams displayParams){
 		if(item instanceof DataSet){
 			for(Data subItem : ((DataSet)item).getItems())
@@ -206,7 +206,7 @@ public class JablusWindow extends JFrame{
 	public static void main(String[] args){
 		JablusWindow window = new JablusWindow();
 		window.setVisible(true);
-		
+
 	}
 
 }

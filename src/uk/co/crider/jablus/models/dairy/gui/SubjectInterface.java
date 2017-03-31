@@ -98,7 +98,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 
 	/** Unique class ID */
 	private static final long serialVersionUID = 777035630161642730L;
-	
+
 	private static final int SKIP_WEEKS = 13; // 13 weeks = 1 quarter
 
 	/** Icon files */
@@ -114,8 +114,8 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 	public Image TRANS_ICON = Toolkit.getDefaultToolkit().getImage(getClass().getResource(BASE_DIR + "transactions.png"));
 	public Image NEXT_ICON  = Toolkit.getDefaultToolkit().getImage(getClass().getResource(BASE_DIR + "control_play.png"));
 	public Image NEXT2_ICON = Toolkit.getDefaultToolkit().getImage(getClass().getResource(BASE_DIR + "control_forward.png"));
-	
-	
+
+
 	// Model components
 	private DairyAgent agent;
 	private SimulationInterface sim;
@@ -199,7 +199,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 		initComponents();
 		center();
 		updateStatus();
-		
+
 		enabled = true;
 		redisplay();
 //		mapView.redisplay(true);
@@ -207,11 +207,11 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 
 	/** Initialise display components */
 	private void initComponents(){
-		
+
 		// -----------------[ menu bar ]----------------
 		fileMenu.setText("Simulation");
 		quitItem.setMnemonic(0);
-		
+
 		JMenu scenarioMenu = new JMenu("New");
 		menuBar.add(scenarioMenu);
 		for(int i = 0; i < Experiments.SCENARIOS.length; i++){
@@ -230,7 +230,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 		scenarioMenu.add(genRandomNew);
 		scenarioMenu.add(genRandomEst);
 		fileMenu.add(scenarioMenu, 0);
-		
+
 		int[] simItems = {
 				Constants.MENU_SIM_OPEN,
 				Constants.MENU_SIM_SVAS
@@ -241,8 +241,8 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 			item.addActionListener(MENU_LISTENER);
 			fileMenu.add(item, i + 1);
 		}
-		
-		
+
+
 		JMenu regimeMenu = new JMenu("Regime");
 //		regimeMenu.setMnemonic(KeyEvent.VK_R);
 		menuBar.add(regimeMenu);
@@ -258,7 +258,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 			item.addActionListener(MENU_LISTENER);
 			regimeMenu.add(item, i);
 		}
-		
+
 		JMenuItem helpItem = new JMenuItem(Constants.getName(Constants.MENU_HELP));
 		helpItem.setMaximumSize(new Dimension(60, 50));
 		helpItem.addActionListener(MENU_LISTENER);
@@ -266,7 +266,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 		menuBar.add(helpItem);
 
 		// scheme, schema, plan, plot, strategy, regieme, programme, schedule, agenda, setup
-		
+
 		// ---------------[ component panels ]------------
 
 		feedPanel = new LivestockFeedPanel(displayParams, this, agent);
@@ -551,8 +551,8 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 				if(e.getButton() != MouseEvent.BUTTON1 &&
 				maps.getLayerViewPanel().getSelectionManager().getSelectedItems().size() > 1)
 					fieldRightClick(e, titleItem, dataItem, fieldMenu);
-			}		
-		});		
+			}
+		});
 
 		// Greate graphs panel for visualisaing market data
 		graphs = new DataView(3, 1,	displayParams, false);
@@ -562,8 +562,8 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 		storePanel.setBorder(new EmptyBorder(10, 0, 0, 0));
 
 
-		
-		
+
+
 		// -----------------[ Main panels ]-------------
 
 		// Create north panel - for main model controls and visualisations of time, balance and weather
@@ -611,7 +611,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 
 
 		// --------------[ set window properties ]-------------
-		
+
 		// Add close listener for main window
 		if(params.GUI_HUMAN_CLOSABLE){
 			addWindowListener(new WindowAdapter(){
@@ -679,7 +679,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 //			marketPanel.setStore(store);
 			evalPanel.addModelItem(store);
 		}
-	
+
 		if(item instanceof DairyFarm){
 			DairyFarm farm = (DairyFarm)item;
 			weather = new WeatherView(
@@ -694,13 +694,13 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 		if(item instanceof CowDigestion){
 			feedPanel.setCowDigestion((CowDigestion)item);
 		}
-		
+
 		if(item instanceof Livestock){
 			feedPanel.setLivestock((Livestock)item);
 			evalPanel.addModelItem(item);
 		}
-		
-		// Add all objects 
+
+		// Add all objects
 		if(item instanceof Data0D || item instanceof Data1D){
 			if(item instanceof Time && this.time == null){
 				GridBagLayout layout = (GridBagLayout)timeFundPanel.getLayout();
@@ -803,7 +803,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 				market = (Market)item;
 //				marketPanel.setEconomics((Market)item);
 				evalPanel.addModelItem(item);
-			}			
+			}
 			for(Data subItem : ((DataSet)item).getItems()){
 				addDisplayItem(subItem, pastData, time);
 			}
@@ -824,7 +824,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 //			System.out.println("Setting Raster "+ item.getNameId() + ":\n" + Utils.arrayString(((RasterMap)item).getRasterArray()));
 			maps.setDisplayItem((Data2D)item);
 		if(item instanceof DataTX){
-//			Do nothing: we use time to display data. The redisplay process will set new data	
+//			Do nothing: we use time to display data. The redisplay process will set new data
 //			texts.setDisplayItem((DataTX)item);
 		}
 		if(item instanceof DataSet){
@@ -841,7 +841,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 				(grandTotal > gameTotal ? "The total amount of money earned so far is £" + Utils.roundString(grandTotal, 2) + "\n\n" : "" +
 				"Click OK to continue"),
 				"Game Complete");
-		 */	    
+		 */
 		if(feedPanel != null) feedPanel.close();
 		if(evalPanel != null) evalPanel.close();
 		if(cropPlanner != null) cropPlanner.close();
@@ -851,7 +851,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 	}
 
 	public static final int DISABLE_ALL = 1;
-	public static final int ENABLE_ALL = 2;	
+	public static final int ENABLE_ALL = 2;
 	public void setItemsEnabled(int status){
 		for(Component c : actionControls)
 			c.setEnabled(isActionPossible(Integer.parseInt(c.getName())));
@@ -882,7 +882,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 		for(int k : fieldMap.getFeatureKeys())
 			prevCrop.put(k, (Integer)fieldMap.getAttribute(Constants.INPUT_FIELD_CROP, k));
 //System.out.println("notifyStep() 2");
-		
+
 		updateStatus();
 
 		enabled = true;
@@ -894,8 +894,8 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 //		marketPanel.notifyStep();
 		feedPanel.notifyStep();
 		evalPanel.notifyStep();
-		
-		
+
+
 /*		try {
 			throw new Exception();
 		} catch (Exception e) {
@@ -909,7 +909,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 			stepMonitor.notify();
 		}
 	}
-		
+
 	private void doPlannedActions(){
 //System.out.println("Carrying out planned actions");
 		// Carry out planned field actions
@@ -935,8 +935,8 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 		agent.done();
 //System.out.println("goForNextStep() return");
 	}
-	
-	
+
+
 	/** Updates current status */
 	private void updateStatus(){
 /*		if(!landUseClicked){
@@ -1014,7 +1014,7 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 			fundsBar.revalidate();
 		if(timeFundPanel != null)
 			timeFundPanel.revalidate();
-		
+
 //		if(texts != null)
 //		texts.revalidate();
 //		super.revalidate();
@@ -1025,12 +1025,12 @@ public class SubjectInterface extends JablusWindow implements UserInterface {
 		if(storeItems != null)
 			for(StorageItem s : storeItems) s.redisplay();
 	}
-	
+
 	private void enableActions(boolean enable){
 		nextButton.setEnabled(enable);
 		monthButton.setEnabled(enable);
 	}
-	
+
 	// ======================= Event Handlers ===============================
 
 	/** Handle events from main menu */
@@ -1044,7 +1044,7 @@ System.out.println("Selected menu item: " + Constants.getName(action));
 			switch(action){
 			case Constants.MENU_SIM_OPEN :
 				toOpen = FileChooser.openFile(null, "Open Simulation", prefs.get(Constants.WORK_DIR_KEY, "."), Constants.FILE_EXT_SIM);
-				if(toOpen != null) startSim(toOpen);				
+				if(toOpen != null) startSim(toOpen);
 				break;
 			case Constants.MENU_SIM_SVAS :
 					toSave = FileChooser.saveFile(null, "Save Simulation As", prefs.get(Constants.WORK_DIR_KEY, "."),
@@ -1139,7 +1139,7 @@ System.out.println("Saving sim:" + simFile);
 		}
 		private void openRegime(File toOpen){
 			try{
-				prefs.put(Constants.WORK_DIR_KEY, toOpen.getParent()); 
+				prefs.put(Constants.WORK_DIR_KEY, toOpen.getParent());
 				BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(toOpen)));
 				feedPanel.readData(reader);
 				grazingPlanner.readData(reader);
@@ -1148,11 +1148,11 @@ System.out.println("Saving sim:" + simFile);
 				regimeFile = toOpen;
 			}catch(IOException ex){
 				ex.printStackTrace();
-			}			
+			}
 		}
 		private void saveRegime(File toSave){
 			try{
-				prefs.put(Constants.WORK_DIR_KEY, toSave.getParent()); 
+				prefs.put(Constants.WORK_DIR_KEY, toSave.getParent());
 				BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(toSave)));
 				feedPanel.writeData(writer);
 				grazingPlanner.writeData(writer);
@@ -1162,10 +1162,10 @@ System.out.println("Saving sim:" + simFile);
 				regimeFile = toSave;
 			}catch(IOException ex){
 				ex.printStackTrace();
-			}			
+			}
 		}
 	};
-	
+
 	/** Event handler to show buy/sell menus */
 	MouseListener SHOW_MENU = new MouseAdapter(){
 		public void mousePressed(MouseEvent e){
@@ -1204,7 +1204,7 @@ System.out.println("Saving sim:" + simFile);
 				menu.add(actionItem);
 				actionItem.setEnabled(isActionPossible(a));
 			}
-			menu.show(e.getComponent(), e.getX(), e.getY());	            
+			menu.show(e.getComponent(), e.getX(), e.getY());
         }
 		class PricePanel extends JPanel{
 			public PricePanel(String name, String price){
@@ -1219,7 +1219,7 @@ System.out.println("Saving sim:" + simFile);
 
 	/** Event handler to deal with creation of buy actions */
 	ActionListener HANDLE_MARKET_BUY = new ActionListener(){
-		
+
 		public void actionPerformed(final ActionEvent e){
 			new Thread(){
 				public void run(){
@@ -1227,7 +1227,7 @@ System.out.println("Saving sim:" + simFile);
 				}
 			}.start();
 		}
-		public void handle(ActionEvent e){	
+		public void handle(ActionEvent e){
 //			JMenuItem item = (JMenuItem)e.getSource();
 			int product = Integer.parseInt(((Component)e.getSource()).getName());
 			Action action = agent.getActionExecutable(DairyAgent.ACTION_BUY);
@@ -1248,13 +1248,13 @@ System.out.println("Saving sim:" + simFile);
 					updateStores();
 				}
 			}
-			
+
 		}
 	};
 
 	/** Event handler to deal with creation of sell actions */
 	ActionListener HANDLE_MARKET_SELL = new ActionListener(){
-		
+
 		public void actionPerformed(final ActionEvent e){
 			new Thread(){
 				public void run(){
@@ -1262,7 +1262,7 @@ System.out.println("Saving sim:" + simFile);
 				}
 			}.start();
 		}
-		public void handle(ActionEvent e){	
+		public void handle(ActionEvent e){
 //			JMenuItem item = (JMenuItem)e.getSource();
 			int product = Integer.parseInt(((Component)e.getSource()).getName());
 			Action action = agent.getActionExecutable(DairyAgent.ACTION_SELL);
@@ -1272,7 +1272,7 @@ System.out.println("Saving sim:" + simFile);
 				// Set up permissable range
 				((Data0D)action.args[1]).setRange(0, store.quantityStored(product));
 				// Get quantity
-				action.args[1] = Popup.queryData(null, 
+				action.args[1] = Popup.queryData(null,
 						"Sell " + Constants.getName(((IntegerData)action.args[0]).intValue()),
 						action.args[1]);
 				// Carry out action
@@ -1283,10 +1283,10 @@ System.out.println("Saving sim:" + simFile);
 					updateStores();
 				}
 			}
-			
+
 		}
 	};
-	
+
 	/** Sets the quantity parameter of the given action to reflect the product being acted upon */
 	private void setQtyParam(Action a){
 		int p = ((Data0D.Integer)a.args[0]).intValue();
@@ -1345,7 +1345,7 @@ System.out.println("Saving sim:" + simFile);
 						maps.getLayerViewPanel().getLayerManager().getLayer(Constants.getName(Constants.STATIC_FIELD_MAP))))
 					aTotal += (Double)fieldMap.getAttribute(Constants.STATIC_FIELD_AREA, ((Feature)f).getID() - maps.getVectorData(Constants.STATIC_FIELD_MAP).getFidOffset());
 				// Create action to be carried out
-				Action action = agent.getActionExecutable(aId);				
+				Action action = agent.getActionExecutable(aId);
 				// Set up parameters for actions requiring further input
 				if(aId == DairyAgent.ACTION_FERTILISE || aId == DairyAgent.ACTION_SPREAD_SLURRY){
 					// Set permissable range
@@ -1365,7 +1365,7 @@ System.out.println("Saving sim:" + simFile);
 				for(Object f : maps.getLayerViewPanel().getSelectionManager().getFeaturesWithSelectedItems(
 						maps.getLayerViewPanel().getLayerManager().getLayer(Constants.getName(Constants.STATIC_FIELD_MAP)))){
 					int selected = ((Feature)f).getID() - maps.getVectorData(Constants.STATIC_FIELD_MAP).getFidOffset();
-					// Get a cloned copy of the action 
+					// Get a cloned copy of the action
 					Action a = (Action)action.clone();
 					// Set field ID
 					((Data0D.Integer)a.args[0]).setValue(selected);
@@ -1386,7 +1386,7 @@ System.out.println("Saving sim:" + simFile);
 		}
 	};
 
-	
+
 	// React to field right-click
 	void fieldRightClick(MouseEvent e, JLabel titleItem, JLabel dataItem, JPopupMenu fieldMenu){
 		Collection fields = maps.getLayerViewPanel().getSelectionManager().getFeaturesWithSelectedItems(
@@ -1395,8 +1395,8 @@ System.out.println("Saving sim:" + simFile);
 		Feature f = (Feature)fields.iterator().next();
 		titleItem.setText(
 				"F" + (f.getID()- maps.getVectorData(Constants.STATIC_FIELD_MAP).getFidOffset()) + " " +
-				Constants.getName((Integer)f.getAttribute(Constants.getName(Constants.INPUT_FIELD_CROP))) + 
-				" (" + Utils.roundString((Double)f.getAttribute(Constants.getName(Constants.STATIC_FIELD_AREA)), 1) + 
+				Constants.getName((Integer)f.getAttribute(Constants.getName(Constants.INPUT_FIELD_CROP))) +
+				" (" + Utils.roundString((Double)f.getAttribute(Constants.getName(Constants.STATIC_FIELD_AREA)), 1) +
 				" " + Constants.UNITS_AREA_HIGH + ")");
 		int vaId = fieldMap.getVisibleAttribute();
 		if(vaId == Constants.INPUT_FIELD_CROP){
@@ -1424,6 +1424,6 @@ System.out.println("Saving sim:" + simFile);
 		}
 		visibleMenu = fieldMenu;
 		fieldMenu.show(maps, e.getX(), e.getY());
-		
+
 	}
 }
